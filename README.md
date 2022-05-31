@@ -17,27 +17,12 @@ Python >=3.6
 If the python package is hosted on a repository, you can install directly using:
 
 ```sh
-pip install git+https://github.com/GIT_USER_ID/GIT_REPO_ID.git
+pip install spirvsmith_server_sdk
 ```
-(you may need to run `pip` with root permission: `sudo pip install git+https://github.com/GIT_USER_ID/GIT_REPO_ID.git`)
 
 Then import the package:
 ```python
-import openapi_client
-```
-
-### Setuptools
-
-Install via [Setuptools](http://pypi.python.org/pypi/setuptools).
-
-```sh
-python setup.py install --user
-```
-(or `sudo python setup.py install` to install the package for all users)
-
-Then import the package:
-```python
-import openapi_client
+import spirvsmith_server_sdk
 ```
 
 ## Getting Started
@@ -46,37 +31,47 @@ Please follow the [installation procedure](#installation--usage) and then run th
 
 ```python
 
-import time
-import openapi_client
+import spirvsmith_server_sdk
 from pprint import pprint
-from openapi_client.api import default_api
-from openapi_client.model.buffer_submission import BufferSubmission
-from openapi_client.model.execution_platform import ExecutionPlatform
-from openapi_client.model.execution_queue import ExecutionQueue
-from openapi_client.model.execution_queues import ExecutionQueues
-from openapi_client.model.generator_info import GeneratorInfo
-from openapi_client.model.http_validation_error import HTTPValidationError
-from openapi_client.model.retrieved_shader import RetrievedShader
-from openapi_client.model.shader_submission import ShaderSubmission
+from spirvsmith_server_sdk.api import default_api
+from spirvsmith_server_sdk.model.execution_platform import ExecutionPlatform
+from spirvsmith_server_sdk.model.hardware_information import HardwareInformation
+from spirvsmith_server_sdk.model.hardware_type import HardwareType
+from spirvsmith_server_sdk.model.hardware_vendor import HardwareVendor
+from spirvsmith_server_sdk.model.operating_system import OperatingSystem
+from spirvsmith_server_sdk.model.vulkan_backend import VulkanBackend
+
 # Defining the host is optional and defaults to http://localhost
 # See configuration.py for a list of all supported configuration parameters.
-configuration = openapi_client.Configuration(
-    host = "http://localhost"
-)
-
+configuration = spirvsmith_server_sdk.Configuration(host="http://localhost:8000")
 
 
 # Enter a context with an instance of the API client
-with openapi_client.ApiClient(configuration) as api_client:
+with spirvsmith_server_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = default_api.DefaultApi(api_client)
-
+    executor = ExecutionPlatform(
+        vulkan_backend=VulkanBackend("MoltenVK"),
+        operating_system=OperatingSystem("Linux"),
+        available_hardware={
+            "CPU": [
+                HardwareInformation(
+                    hardware_type=HardwareType("CPU"),
+                    hardware_vendor=HardwareVendor("GenuineIntel"),
+                    hardware_model="hardware_model_example",
+                    driver_version="driver_version_example",
+                ),
+            ],
+            "GPU": [],
+        },
+    )
     try:
-        # Flush Queues
-        api_response = api_instance.flush_queues_queues_delete()
-        pprint(api_response)
+        queue_id = api_instance.register_executor_executors_post(executor)
+        pprint(queue_id)
+        queues = api_instance.get_queues_queues_get()
+        pprint(queues)
     except openapi_client.ApiException as e:
-        print("Exception when calling DefaultApi->flush_queues_queues_delete: %s\n" % e)
+        print(f"Exception: {e}")
 ```
 
 ## Documentation for API Endpoints
@@ -125,24 +120,4 @@ Class | Method | HTTP request | Description
 ## Author
 
 
-
-
-## Notes for Large OpenAPI documents
-If the OpenAPI document is large, imports in openapi_client.apis and openapi_client.models may fail with a
-RecursionError indicating the maximum recursion limit has been exceeded. In that case, there are a couple of solutions:
-
-Solution 1:
-Use specific imports for apis and models like:
-- `from openapi_client.api.default_api import DefaultApi`
-- `from openapi_client.model.pet import Pet`
-
-Solution 2:
-Before importing the package, adjust the maximum recursion limit as shown below:
-```
-import sys
-sys.setrecursionlimit(1500)
-import openapi_client
-from openapi_client.apis import *
-from openapi_client.models import *
-```
 
