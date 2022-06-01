@@ -1,39 +1,36 @@
 {
     "openapi": "3.0.2",
     "info": {
-        "title": "FastAPI",
+        "title": "SPIRVSmith-Server",
+        "contact": {
+            "name": "Rayan Hatout"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+        },
         "version": "0.1.0"
     },
     "paths": {
-        "/": {
-            "get": {
-                "summary": "Root",
-                "operationId": "root__get",
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/shaders": {
             "post": {
+                "tags": [
+                    {
+                        "name": "shaders",
+                        "description": "Endpoints related to the brokerage of shaders."
+                    }
+                ],
                 "summary": "Submit Shader",
                 "operationId": "submit_shader_shaders_post",
                 "requestBody": {
+                    "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/ShaderSubmission"
                             }
                         }
-                    },
-                    "required": true
+                    }
                 },
                 "responses": {
                     "200": {
@@ -59,17 +56,23 @@
         },
         "/shaders/{shader_id}": {
             "get": {
+                "tags": [
+                    {
+                        "name": "shaders",
+                        "description": "Endpoints related to the brokerage of shaders."
+                    }
+                ],
                 "summary": "Get Shader",
                 "operationId": "get_shader_shaders__shader_id__get",
                 "parameters": [
                     {
+                        "name": "shader_id",
+                        "in": "path",
                         "required": true,
                         "schema": {
                             "title": "The ID of the shader to get",
                             "type": "string"
-                        },
-                        "name": "shader_id",
-                        "in": "path"
+                        }
                     }
                 ],
                 "responses": {
@@ -96,19 +99,25 @@
                 }
             }
         },
-        "/next_shader": {
+        "/shaders/next": {
             "post": {
+                "tags": [
+                    {
+                        "name": "shaders",
+                        "description": "Endpoints related to the brokerage of shaders."
+                    }
+                ],
                 "summary": "Get Next Shader",
-                "operationId": "get_next_shader_next_shader_post",
+                "operationId": "get_next_shader_shaders_next_post",
                 "requestBody": {
+                    "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/ExecutionPlatform"
                             }
                         }
-                    },
-                    "required": true
+                    }
                 },
                 "responses": {
                     "200": {
@@ -136,53 +145,23 @@
         },
         "/generators": {
             "post": {
+                "tags": [
+                    {
+                        "name": "generators",
+                        "description": "Endpoints related to generators."
+                    }
+                ],
                 "summary": "Register Generator",
                 "operationId": "register_generator_generators_post",
                 "requestBody": {
+                    "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/GeneratorInfo"
                             }
                         }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
                     }
-                }
-            }
-        },
-        "/executors": {
-            "post": {
-                "summary": "Register Executor",
-                "operationId": "register_executor_executors_post",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/ExecutionPlatform"
-                            }
-                        }
-                    },
-                    "required": true
                 },
                 "responses": {
                     "200": {
@@ -207,7 +186,73 @@
             }
         },
         "/queues": {
+            "put": {
+                "tags": [
+                    {
+                        "name": "queues",
+                        "description": "Endpoints related to the management of execution queues."
+                    }
+                ],
+                "summary": "Register Executor",
+                "operationId": "register_executor_queues_put",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ExecutionPlatform"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    {
+                        "name": "queues",
+                        "description": "Endpoints related to the management of execution queues."
+                    }
+                ],
+                "summary": "Flush Queues",
+                "operationId": "flush_queues_queues_delete",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            },
             "get": {
+                "tags": [
+                    {
+                        "name": "queues",
+                        "description": "Endpoints related to the management of execution queues."
+                    }
+                ],
                 "summary": "Get Queues",
                 "operationId": "get_queues_queues_get",
                 "responses": {
@@ -222,35 +267,27 @@
                         }
                     }
                 }
-            },
-            "delete": {
-                "summary": "Flush Queues",
-                "operationId": "flush_queues_queues_delete",
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    }
-                }
             }
         },
         "/queues/{queue_id}": {
             "get": {
+                "tags": [
+                    {
+                        "name": "queues",
+                        "description": "Endpoints related to the management of execution queues."
+                    }
+                ],
                 "summary": "Get Queue",
                 "operationId": "get_queue_queues__queue_id__get",
                 "parameters": [
                     {
+                        "name": "queue_id",
+                        "in": "path",
                         "required": true,
                         "schema": {
                             "title": "The ID of the queue to get",
                             "type": "string"
-                        },
-                        "name": "queue_id",
-                        "in": "path"
+                        }
                     }
                 ],
                 "responses": {
@@ -279,28 +316,34 @@
         },
         "/buffers/{shader_id}": {
             "post": {
+                "tags": [
+                    {
+                        "name": "buffers",
+                        "description": "Endpoints related to the management of buffers dumps."
+                    }
+                ],
                 "summary": "Submit Buffers",
                 "operationId": "submit_buffers_buffers__shader_id__post",
                 "parameters": [
                     {
+                        "name": "shader_id",
+                        "in": "path",
                         "required": true,
                         "schema": {
                             "title": "The ID of the shader to get",
                             "type": "string"
-                        },
-                        "name": "shader_id",
-                        "in": "path"
+                        }
                     }
                 ],
                 "requestBody": {
+                    "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/BufferSubmission"
                             }
                         }
-                    },
-                    "required": true
+                    }
                 },
                 "responses": {
                     "200": {
@@ -867,5 +910,23 @@
                 "description": "An enumeration."
             }
         }
-    }
+    },
+    "tags": [
+        {
+            "name": "shaders",
+            "description": "Endpoints related to the brokerage of shaders."
+        },
+        {
+            "name": "queues",
+            "description": "Endpoints related to the management of execution queues."
+        },
+        {
+            "name": "generators",
+            "description": "Endpoints related to generators."
+        },
+        {
+            "name": "buffers",
+            "description": "Endpoints related to the management of buffers dumps."
+        }
+    ]
 }

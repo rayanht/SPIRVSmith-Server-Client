@@ -1,3 +1,5 @@
+# coding: utf-8
+
 # flake8: noqa
 
 # import all models into this package
@@ -9,7 +11,6 @@
 # import sys
 # sys.setrecursionlimit(n)
 
-from spirvsmith_server_sdk.model.body_submit_buffers_buffers_shader_id_post import BodySubmitBuffersBuffersShaderIdPost
 from spirvsmith_server_sdk.model.buffer_submission import BufferSubmission
 from spirvsmith_server_sdk.model.execution_platform import ExecutionPlatform
 from spirvsmith_server_sdk.model.execution_queue import ExecutionQueue
@@ -20,7 +21,6 @@ from spirvsmith_server_sdk.model.http_validation_error import HTTPValidationErro
 from spirvsmith_server_sdk.model.hardware_information import HardwareInformation
 from spirvsmith_server_sdk.model.hardware_type import HardwareType
 from spirvsmith_server_sdk.model.hardware_vendor import HardwareVendor
-from spirvsmith_server_sdk.model.location_inner import LocationInner
 from spirvsmith_server_sdk.model.mutations_config import MutationsConfig
 from spirvsmith_server_sdk.model.operating_system import OperatingSystem
 from spirvsmith_server_sdk.model.retrieved_shader import RetrievedShader
