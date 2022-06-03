@@ -4,11 +4,11 @@ import attr
 
 from ..models.generator_info import GeneratorInfo
 
-T = TypeVar("T", bound="RetrievedShader")
+T = TypeVar("T", bound="ShaderData")
 
 
 @attr.s(auto_attribs=True)
-class RetrievedShader:
+class ShaderData:
     """
     Attributes:
         shader_id (str):
@@ -47,14 +47,14 @@ class RetrievedShader:
 
         generator_info = GeneratorInfo.from_dict(d.pop("generator_info"))
 
-        retrieved_shader = cls(
+        shader_data = cls(
             shader_id=shader_id,
             shader_assembly=shader_assembly,
             generator_info=generator_info,
         )
 
-        retrieved_shader.additional_properties = d
-        return retrieved_shader
+        shader_data.additional_properties = d
+        return shader_data
 
     @property
     def additional_keys(self) -> List[str]:

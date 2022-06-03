@@ -1,8 +1,9 @@
-from typing import Any, Dict, List, Type, TypeVar
+from typing import Any, Dict, List, Type, TypeVar, Union
 
 import attr
 
 from ..models.execution_queues_queues import ExecutionQueuesQueues
+from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="ExecutionQueues")
 
@@ -11,29 +12,34 @@ T = TypeVar("T", bound="ExecutionQueues")
 class ExecutionQueues:
     """
     Attributes:
-        queues (ExecutionQueuesQueues):
+        queues (Union[Unset, ExecutionQueuesQueues]):
     """
 
-    queues: ExecutionQueuesQueues
+    queues: Union[Unset, ExecutionQueuesQueues] = UNSET
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
-        queues = self.queues.to_dict()
+        queues: Union[Unset, Dict[str, Any]] = UNSET
+        if not isinstance(self.queues, Unset):
+            queues = self.queues.to_dict()
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "queues": queues,
-            }
-        )
+        field_dict.update({})
+        if queues is not UNSET:
+            field_dict["queues"] = queues
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        queues = ExecutionQueuesQueues.from_dict(d.pop("queues"))
+        _queues = d.pop("queues", UNSET)
+        queues: Union[Unset, ExecutionQueuesQueues]
+        if isinstance(_queues, Unset):
+            queues = UNSET
+        else:
+            queues = ExecutionQueuesQueues.from_dict(_queues)
 
         execution_queues = cls(
             queues=queues,

@@ -4,7 +4,7 @@ import httpx
 
 from ...client import Client
 from ...models.http_validation_error import HTTPValidationError
-from ...models.retrieved_shader import RetrievedShader
+from ...models.shader_data import ShaderData
 from ...types import Response
 
 
@@ -27,9 +27,9 @@ def _get_kwargs(
     }
 
 
-def _parse_response(*, response: httpx.Response) -> Optional[Union[HTTPValidationError, RetrievedShader]]:
+def _parse_response(*, response: httpx.Response) -> Optional[Union[HTTPValidationError, ShaderData]]:
     if response.status_code == 200:
-        response_200 = RetrievedShader.from_dict(response.json())
+        response_200 = ShaderData.from_dict(response.json())
 
         return response_200
     if response.status_code == 422:
@@ -39,7 +39,7 @@ def _parse_response(*, response: httpx.Response) -> Optional[Union[HTTPValidatio
     return None
 
 
-def _build_response(*, response: httpx.Response) -> Response[Union[HTTPValidationError, RetrievedShader]]:
+def _build_response(*, response: httpx.Response) -> Response[Union[HTTPValidationError, ShaderData]]:
     return Response(
         status_code=response.status_code,
         content=response.content,
@@ -52,14 +52,14 @@ def sync_detailed(
     shader_id: str,
     *,
     client: Client,
-) -> Response[Union[HTTPValidationError, RetrievedShader]]:
-    """Get Hader
+) -> Response[Union[HTTPValidationError, ShaderData]]:
+    """Get Shader
 
     Args:
         shader_id (str):
 
     Returns:
-        Response[Union[HTTPValidationError, RetrievedShader]]
+        Response[Union[HTTPValidationError, ShaderData]]
     """
 
     kwargs = _get_kwargs(
@@ -79,14 +79,14 @@ def sync(
     shader_id: str,
     *,
     client: Client,
-) -> Optional[Union[HTTPValidationError, RetrievedShader]]:
-    """Get Hader
+) -> Optional[Union[HTTPValidationError, ShaderData]]:
+    """Get Shader
 
     Args:
         shader_id (str):
 
     Returns:
-        Response[Union[HTTPValidationError, RetrievedShader]]
+        Response[Union[HTTPValidationError, ShaderData]]
     """
 
     return sync_detailed(
@@ -99,14 +99,14 @@ async def asyncio_detailed(
     shader_id: str,
     *,
     client: Client,
-) -> Response[Union[HTTPValidationError, RetrievedShader]]:
-    """Get Hader
+) -> Response[Union[HTTPValidationError, ShaderData]]:
+    """Get Shader
 
     Args:
         shader_id (str):
 
     Returns:
-        Response[Union[HTTPValidationError, RetrievedShader]]
+        Response[Union[HTTPValidationError, ShaderData]]
     """
 
     kwargs = _get_kwargs(
@@ -124,14 +124,14 @@ async def asyncio(
     shader_id: str,
     *,
     client: Client,
-) -> Optional[Union[HTTPValidationError, RetrievedShader]]:
-    """Get Hader
+) -> Optional[Union[HTTPValidationError, ShaderData]]:
+    """Get Shader
 
     Args:
         shader_id (str):
 
     Returns:
-        Response[Union[HTTPValidationError, RetrievedShader]]
+        Response[Union[HTTPValidationError, ShaderData]]
     """
 
     return (

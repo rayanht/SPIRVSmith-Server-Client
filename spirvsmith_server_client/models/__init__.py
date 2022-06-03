@@ -15,7 +15,7 @@ from .hardware_vendor import HardwareVendor
 from .http_validation_error import HTTPValidationError
 from .mutations_config import MutationsConfig
 from .operating_system import OperatingSystem
-from .retrieved_shader import RetrievedShader
+from .shader_data import ShaderData
 from .shader_submission import ShaderSubmission
 from .validation_error import ValidationError
 from .vulkan_backend import VulkanBackend
