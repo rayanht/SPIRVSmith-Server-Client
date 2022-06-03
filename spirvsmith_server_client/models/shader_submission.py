@@ -2,8 +2,6 @@ from typing import Any, Dict, List, Type, TypeVar
 
 import attr
 
-from ..models.generator_info import GeneratorInfo
-
 T = TypeVar("T", bound="ShaderSubmission")
 
 
@@ -13,14 +11,14 @@ class ShaderSubmission:
     Attributes:
         shader_id (str):
         shader_assembly (str):
-        generator_info (GeneratorInfo):
+        generator_version (str):
         prioritize (bool):
         n_buffers (int):
     """
 
     shader_id: str
     shader_assembly: str
-    generator_info: GeneratorInfo
+    generator_version: str
     prioritize: bool
     n_buffers: int
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
@@ -28,8 +26,7 @@ class ShaderSubmission:
     def to_dict(self) -> Dict[str, Any]:
         shader_id = self.shader_id
         shader_assembly = self.shader_assembly
-        generator_info = self.generator_info.to_dict()
-
+        generator_version = self.generator_version
         prioritize = self.prioritize
         n_buffers = self.n_buffers
 
@@ -39,7 +36,7 @@ class ShaderSubmission:
             {
                 "shader_id": shader_id,
                 "shader_assembly": shader_assembly,
-                "generator_info": generator_info,
+                "generator_version": generator_version,
                 "prioritize": prioritize,
                 "n_buffers": n_buffers,
             }
@@ -54,7 +51,7 @@ class ShaderSubmission:
 
         shader_assembly = d.pop("shader_assembly")
 
-        generator_info = GeneratorInfo.from_dict(d.pop("generator_info"))
+        generator_version = d.pop("generator_version")
 
         prioritize = d.pop("prioritize")
 
@@ -63,7 +60,7 @@ class ShaderSubmission:
         shader_submission = cls(
             shader_id=shader_id,
             shader_assembly=shader_assembly,
-            generator_info=generator_info,
+            generator_version=generator_version,
             prioritize=prioritize,
             n_buffers=n_buffers,
         )

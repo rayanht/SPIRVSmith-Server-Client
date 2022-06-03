@@ -2,8 +2,6 @@ from typing import Any, Dict, List, Type, TypeVar
 
 import attr
 
-from ..models.generator_info import GeneratorInfo
-
 T = TypeVar("T", bound="ShaderData")
 
 
@@ -13,18 +11,18 @@ class ShaderData:
     Attributes:
         shader_id (str):
         shader_assembly (str):
-        generator_info (GeneratorInfo):
+        generator_version (str):
     """
 
     shader_id: str
     shader_assembly: str
-    generator_info: GeneratorInfo
+    generator_version: str
     additional_properties: Dict[str, Any] = attr.ib(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
         shader_id = self.shader_id
         shader_assembly = self.shader_assembly
-        generator_info = self.generator_info.to_dict()
+        generator_version = self.generator_version
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -32,7 +30,7 @@ class ShaderData:
             {
                 "shader_id": shader_id,
                 "shader_assembly": shader_assembly,
-                "generator_info": generator_info,
+                "generator_version": generator_version,
             }
         )
 
@@ -45,12 +43,12 @@ class ShaderData:
 
         shader_assembly = d.pop("shader_assembly")
 
-        generator_info = GeneratorInfo.from_dict(d.pop("generator_info"))
+        generator_version = d.pop("generator_version")
 
         shader_data = cls(
             shader_id=shader_id,
             shader_assembly=shader_assembly,
-            generator_info=generator_info,
+            generator_version=generator_version,
         )
 
         shader_data.additional_properties = d

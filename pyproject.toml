@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "spirvsmith-server-client"
-version = "0.2.0"
+version = "0.3.0"
 description = "A client library for accessing spirvsmith-server"
 
 authors = []
